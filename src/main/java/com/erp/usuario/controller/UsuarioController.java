@@ -2,10 +2,13 @@ package com.erp.usuario.controller;
 
 import java.util.Optional;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,13 +43,8 @@ public class UsuarioController {
 	
 	@Autowired
     private TokenService tokenService;
-	
-	@PostMapping("/save")
-    public String saveOrUpdate(@RequestBody Usuario usuario) {
-			return usuarioService.saveOrUpdate(usuario); //vou chamar o DP template method
-    }
-	
-	@GetMapping("/find") 
+
+	@GetMapping("/{login}")
 	public UserDetails findUsuarioByLogin(@RequestParam String login){
 		return this.usuarioService.findByLogin(login);
 	}
@@ -72,6 +70,17 @@ public class UsuarioController {
 
         return ResponseEntity.ok().build();
     }
+
+
+    @GetMapping("/me")
+    public ResponseEntity<UserDetails> getMe(Authentication auth){
+        String username = auth.getName();
+        UserDetails user = usuarioService.findByLogin(username);
+        return ResponseEntity.ok(user);
+    }
+
+
+
 }
 
 

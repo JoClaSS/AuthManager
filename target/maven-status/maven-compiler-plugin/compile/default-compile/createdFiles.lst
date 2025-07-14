@@ -1,0 +1,15 @@
+com\erp\usuario\controller\UsuarioController.class
+com\erp\usuario\config\SwaggerConfig.class
+com\erp\usuario\models\Usuario.class
+com\erp\usuario\service\UsuarioService.class
+com\erp\usuario\models\LoginDTO.class
+com\erp\usuario\security\TokenService.class
+com\erp\usuario\models\UserRole.class
+com\erp\usuario\utils\AbstractSaveUpdateTemplate.class
+com\erp\usuario\service\AuthorizationService.class
+com\erp\usuario\security\SecurityFilter.class
+com\erp\usuario\UsuarioApplication.class
+com\erp\usuario\models\RegistroDTO.class
+com\erp\usuario\models\UsuarioDTO.class
+com\erp\usuario\repository\UsuarioRepository.class
+com\erp\usuario\security\SecurityConfigurations.class
