@@ -2,6 +2,8 @@ package com.erp.usuario.controller;
 
 import java.util.Optional;
 
+import com.erp.usuario.models.*;
+import com.erp.usuario.service.PessoaService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.authentication.AuthenticationManager;
 
-import com.erp.usuario.models.LoginDTO;
-import com.erp.usuario.models.RegistroDTO;
-import com.erp.usuario.models.Usuario;
-import com.erp.usuario.models.UsuarioDTO;
 import com.erp.usuario.security.TokenService;
 import com.erp.usuario.service.UsuarioService;
 
@@ -40,6 +38,9 @@ public class UsuarioController {
 
 	@Autowired
 	private final UsuarioService usuarioService;
+
+    @Autowired
+    private PessoaService pessoaService;
 	
 	@Autowired
     private TokenService tokenService;
@@ -65,7 +66,8 @@ public class UsuarioController {
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
         Usuario newUser = new Usuario(data.login(), encryptedPassword, data.role());
-
+        Pessoa newPessoa = this.pessoaService.salvarPessoa(data.pessoa());
+        newUser.setPessoa(newPessoa);
         this.usuarioService.executeSave(newUser);
 
         return ResponseEntity.ok().build();
