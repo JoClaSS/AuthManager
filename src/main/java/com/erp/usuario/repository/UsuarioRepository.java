@@ -13,9 +13,11 @@ import com.erp.usuario.models.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, String> {
 	
-//	@Query(value = "SELECT * FROM usuario u WHERE (u.login= :login)", nativeQuery = true)
-//	UserDetails findByLogin(@Param("login") String login);
+	@Query(value = "SELECT * FROM usuario u WHERE (u.login= :login)", nativeQuery = true)
+	Usuario findByLoginUsuario(@Param("login") String login);
 	
 	UserDetails findByLogin(String login);
+
+
 	
 }
