@@ -59,7 +59,7 @@ public class UsuarioController {
 
         return ResponseEntity.ok(new LoginDTO(token));
     }
-
+//
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegistroDTO data){
         if(this.usuarioService.findByLogin(data.login()) != null) return ResponseEntity.badRequest().build();
