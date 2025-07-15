@@ -6,19 +6,14 @@ import com.erp.usuario.models.*;
 import com.erp.usuario.service.PessoaService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.security.authentication.AuthenticationManager;
 
 import com.erp.usuario.security.TokenService;
@@ -59,7 +54,7 @@ public class UsuarioController {
 
         return ResponseEntity.ok(new LoginDTO(token));
     }
-//
+
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegistroDTO data){
         if(this.usuarioService.findByLogin(data.login()) != null) return ResponseEntity.badRequest().build();
@@ -79,6 +74,21 @@ public class UsuarioController {
         String username = auth.getName();
         UserDetails user = usuarioService.findByLogin(username);
         return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updatePassword(Authentication auth, @RequestBody String newPassword){
+        Usuario user = usuarioService.findByLoginUsuario(auth.getName());
+
+        if (!new BCryptPasswordEncoder().matches(newPassword, user.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Senha atual incorreta.");
+        }
+
+        String novaSenhaCriptografada = new BCryptPasswordEncoder().encode(newPassword);
+        user.setPassword(novaSenhaCriptografada);
+        usuarioService.executeSave(user);
+
+        return ResponseEntity.ok("Senha atualizada com sucesso.");
     }
 
 

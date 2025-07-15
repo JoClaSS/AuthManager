@@ -25,6 +25,10 @@ public class UsuarioService extends AbstractSaveUpdateTemplate<Usuario>{
 	public UserDetails  findByLogin(String login) {
 		return usuarioRepository.findByLogin(login);
 	}
+
+	public Usuario findByLoginUsuario(String login) {
+		return usuarioRepository.findByLoginUsuario(login);
+	}
 	
 
 }
