@@ -1,6 +1,7 @@
 package com.erp.usuario.service;
 
 import com.erp.usuario.models.Pessoa;
+import com.erp.usuario.models.PessoaDTO;
 import com.erp.usuario.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -15,7 +16,12 @@ public class PessoaService {
     @Autowired
     PessoaRepository pRepository;
 
-    public Pessoa salvarPessoa(Pessoa pessoa) {
+    public Pessoa salvarPessoa(PessoaDTO dto) {
+        Pessoa pessoa = new Pessoa();
+        pessoa.setNome(dto.nome());
+        pessoa.setSexo(dto.sexo());
+        pessoa.setEmail(dto.email());
+        pessoa.setAtivo(true);
         return pRepository.saveAndFlush(pessoa);
     }
 
