@@ -5,6 +5,7 @@ com\erp\usuario\models\Usuario.class
 com\erp\usuario\service\UsuarioService.class
 com\erp\usuario\models\LoginDTO.class
 com\erp\usuario\security\TokenService.class
+com\erp\usuario\models\PessoaDTO.class
 com\erp\usuario\models\UserRole.class
 com\erp\usuario\utils\AbstractSaveUpdateTemplate.class
 com\erp\usuario\service\AuthorizationService.class
