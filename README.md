@@ -1,2 +1,2 @@
 # AuthManager
-Is a module's Authentication
+Is a Authentication microservice
